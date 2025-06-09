@@ -148,6 +148,85 @@ const methods = [
     }
 ];
 
+function getResources(name) {
+    return {
+        videos: [
+            `https://www.youtube.com/results?search_query=${encodeURIComponent(name + ' parenting method')}`
+        ],
+        books: [
+            `https://www.goodreads.com/search?q=${encodeURIComponent(name + ' parenting')}`
+        ]
+    };
+}
+
+function showModal(item) {
+    const modal = document.getElementById('infoModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSummary = document.getElementById('modalSummary');
+    const modalTraits = document.getElementById('modalTraits');
+    const modalVideos = document.getElementById('modalVideos');
+    const modalBooks = document.getElementById('modalBooks');
+
+    modalTitle.textContent = item.name;
+    modalSummary.textContent = item.summary;
+
+    modalTraits.innerHTML = '';
+    const growTitle = document.createElement('h4');
+    growTitle.textContent = 'Fosters';
+    const growList = document.createElement('ul');
+    item.grows.forEach(t => {
+        const li = document.createElement('li');
+        li.textContent = t;
+        growList.appendChild(li);
+    });
+    const neglectTitle = document.createElement('h4');
+    neglectTitle.textContent = 'May Neglect';
+    const neglectList = document.createElement('ul');
+    item.neglects.forEach(t => {
+        const li = document.createElement('li');
+        li.textContent = t;
+        neglectList.appendChild(li);
+    });
+    modalTraits.appendChild(growTitle);
+    modalTraits.appendChild(growList);
+    modalTraits.appendChild(neglectTitle);
+    modalTraits.appendChild(neglectList);
+
+    const resources = getResources(item.name);
+    modalVideos.innerHTML = '';
+    resources.videos.forEach(url => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.textContent = `YouTube search for ${item.name}`;
+        li.appendChild(a);
+        modalVideos.appendChild(li);
+    });
+    modalBooks.innerHTML = '';
+    resources.books.forEach(url => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.textContent = `Books about ${item.name}`;
+        li.appendChild(a);
+        modalBooks.appendChild(li);
+    });
+
+    modal.classList.add('active');
+}
+
+document.getElementById('modalClose').addEventListener('click', () => {
+    document.getElementById('infoModal').classList.remove('active');
+});
+
+document.getElementById('infoModal').addEventListener('click', e => {
+    if (e.target.id === 'infoModal') {
+        e.target.classList.remove('active');
+    }
+});
+
 
 function createCard(item) {
     const card = document.createElement('div');
@@ -156,17 +235,32 @@ function createCard(item) {
     title.textContent = item.name;
     const summary = document.createElement('p');
     summary.textContent = item.summary;
+    const goodWrap = document.createElement('div');
+    goodWrap.className = 'meter-container';
+    const goodLabel = document.createElement('span');
+    goodLabel.className = 'meter-label';
+    goodLabel.textContent = 'Strengths';
     const goodMeter = document.createElement('div');
     goodMeter.className = 'meter';
     const goodBar = document.createElement('div');
     goodBar.style.width = item.good + '%';
     goodMeter.appendChild(goodBar);
+    goodWrap.appendChild(goodLabel);
+    goodWrap.appendChild(goodMeter);
+
+    const badWrap = document.createElement('div');
+    badWrap.className = 'meter-container';
+    const badLabel = document.createElement('span');
+    badLabel.className = 'meter-label';
+    badLabel.textContent = 'Blind Spots';
     const badMeter = document.createElement('div');
     badMeter.className = 'meter';
     const badBar = document.createElement('div');
     badBar.style.width = item.bad + '%';
     badBar.style.background = '#ff9e9e';
     badMeter.appendChild(badBar);
+    badWrap.appendChild(badLabel);
+    badWrap.appendChild(badMeter);
 
     const details = document.createElement('div');
     details.className = 'details';
@@ -193,12 +287,12 @@ function createCard(item) {
 
     card.appendChild(title);
     card.appendChild(summary);
-    card.appendChild(goodMeter);
-    card.appendChild(badMeter);
+    card.appendChild(goodWrap);
+    card.appendChild(badWrap);
     card.appendChild(details);
 
     card.addEventListener('click', () => {
-        details.classList.toggle('visible');
+        showModal(item);
     });
 
     return card;
