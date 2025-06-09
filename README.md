@@ -1,3 +1,9 @@
 # Parent Ally
 
-This demo showcases parenting styles and educational methods. Each card displays overall strengths and potential blind spots using blue and red meters. Clicking a card opens a modal with traits and helpful links for videos and books. The layout is responsive for mobile and desktop.
+This demo showcases parenting styles and educational methods with an inviting design.
+Features include:
+- Sticky navigation bar with logo and dark mode toggle
+- Collapsible journeys and a comparison table of methods
+- Search box with suggested questions and a simple quiz
+- Embedded video playlist and audio summaries
+- Responsive layout with mobile hamburger menu

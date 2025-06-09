@@ -1,6 +1,7 @@
 const styles = [
     {
         name: 'Authoritative',
+        icon: '🤝',
         summary: 'High expectations with warmth and respect.',
         good: 80,
         bad: 20,
@@ -9,6 +10,7 @@ const styles = [
     },
     {
         name: 'Authoritarian',
+        icon: '⚔️',
         summary: 'Strict rules and obedience focus.',
         good: 60,
         bad: 40,
@@ -17,6 +19,7 @@ const styles = [
     },
     {
         name: 'Permissive',
+        icon: '🎈',
         summary: 'Lenient with few demands.',
         good: 70,
         bad: 50,
@@ -25,6 +28,7 @@ const styles = [
     },
     {
         name: 'Uninvolved',
+        icon: '💤',
         summary: 'Low responsiveness and guidance.',
         good: 30,
         bad: 70,
@@ -33,6 +37,7 @@ const styles = [
     },
     {
         name: 'Positive/Gentle',
+        icon: '🌱',
         summary: 'Empathy and natural consequences.',
         good: 85,
         bad: 25,
@@ -41,6 +46,7 @@ const styles = [
     },
     {
         name: 'Helicopter',
+        icon: '🚁',
         summary: 'Overprotective and involved.',
         good: 60,
         bad: 40,
@@ -49,6 +55,7 @@ const styles = [
     },
     {
         name: 'Free-Range',
+        icon: '🐓',
         summary: 'Encourages independence within boundaries.',
         good: 75,
         bad: 30,
@@ -57,6 +64,7 @@ const styles = [
     },
     {
         name: 'Tiger',
+        icon: '🐯',
         summary: 'Achievement-focused discipline.',
         good: 70,
         bad: 50,
@@ -68,6 +76,7 @@ const styles = [
 const methods = [
     {
         name: 'Montessori',
+        icon: '🧩',
         summary: 'Self-directed activity in prepared environments.',
         good: 80,
         bad: 30,
@@ -76,6 +85,7 @@ const methods = [
     },
     {
         name: 'Waldorf',
+        icon: '🎨',
         summary: 'Arts-based learning with daily rhythm.',
         good: 70,
         bad: 40,
@@ -84,6 +94,7 @@ const methods = [
     },
     {
         name: 'Reggio Emilia',
+        icon: '🏗️',
         summary: 'Project-based child-led discovery.',
         good: 75,
         bad: 35,
@@ -92,6 +103,7 @@ const methods = [
     },
     {
         name: 'Charlotte Mason',
+        icon: '📚',
         summary: 'Short lessons using living books.',
         good: 70,
         bad: 30,
@@ -100,6 +112,7 @@ const methods = [
     },
     {
         name: 'Unschooling',
+        icon: '🛤️',
         summary: 'Learning from life experiences.',
         good: 65,
         bad: 45,
@@ -108,6 +121,7 @@ const methods = [
     },
     {
         name: 'Forest School',
+        icon: '🌲',
         summary: 'Outdoor nature-rich exploration.',
         good: 80,
         bad: 30,
@@ -116,6 +130,7 @@ const methods = [
     },
     {
         name: 'Classical Education',
+        icon: '🏛️',
         summary: 'Grammar, Logic, Rhetoric.',
         good: 70,
         bad: 40,
@@ -124,6 +139,7 @@ const methods = [
     },
     {
         name: 'RIE',
+        icon: '👶',
         summary: 'Respectful infant caregiving.',
         good: 85,
         bad: 20,
@@ -132,6 +148,7 @@ const methods = [
     },
     {
         name: 'Pikler',
+        icon: '🤸',
         summary: 'Independent motor development.',
         good: 80,
         bad: 25,
@@ -140,6 +157,7 @@ const methods = [
     },
     {
         name: 'Faith-Based',
+        icon: '🙏',
         summary: 'Guided by scripture and moral character.',
         good: 85,
         bad: 30,
@@ -231,6 +249,9 @@ document.getElementById('infoModal').addEventListener('click', e => {
 function createCard(item) {
     const card = document.createElement('div');
     card.className = 'card';
+    const icon = document.createElement('div');
+    icon.className = 'card-icon';
+    icon.textContent = item.icon || '';
     const title = document.createElement('h3');
     title.textContent = item.name;
     const summary = document.createElement('p');
@@ -285,6 +306,7 @@ function createCard(item) {
     details.appendChild(neglectTitle);
     details.appendChild(neglectList);
 
+    card.appendChild(icon);
     card.appendChild(title);
     card.appendChild(summary);
     card.appendChild(goodWrap);
@@ -303,6 +325,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const methodContainer = document.querySelector('#methods .cards');
     styles.forEach(item => styleContainer.appendChild(createCard(item)));
     methods.forEach(item => methodContainer.appendChild(createCard(item)));
+
+    const questions = [
+        'What should I do if my toddler bites?',
+        'How can I encourage independence?',
+        'Ways to handle tantrums'
+    ];
+    const datalist = document.getElementById('suggestions');
+    if (datalist) {
+        questions.forEach(q => {
+            const option = document.createElement('option');
+            option.value = q;
+            datalist.appendChild(option);
+        });
+    }
+
+    const quizForm = document.getElementById('quizForm');
+    if (quizForm) {
+        quizForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const style = e.target.style.value;
+            document.getElementById('quizResult').textContent = `You might enjoy exploring ${style} approaches.`;
+        });
+    }
+
+    const darkBtn = document.getElementById('darkToggle');
+    if (darkBtn) {
+        darkBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+        });
+    }
 
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
