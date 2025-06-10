@@ -399,14 +399,6 @@ document.addEventListener('DOMContentLoaded', () => {
         chartToggle.textContent = radarContainer.classList.contains('hidden') ? 'Show Chart' : 'Hide Chart';
     });
 
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 150) {
-            radarContainer.classList.add('faded');
-        } else {
-            radarContainer.classList.remove('faded');
-        }
-    });
-
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
