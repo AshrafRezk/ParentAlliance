@@ -166,6 +166,49 @@ const methods = [
     }
 ];
 
+const styleResources = {
+    'Authoritative': {
+        forum: 'https://www.reddit.com/r/ScienceBasedParenting/',
+        book: 'https://www.apa.org/pubs/books/4317012',
+        video: 'https://www.youtube.com/watch?v=h7Xiktyx20U'
+    },
+    'Authoritarian': {
+        forum: 'https://www.reddit.com/r/Parenting/comments/149g1f6/authoritarian_vs_authoritative/',
+        book: 'https://www.goodreads.com/book/show/110540.Between_Parent_and_Child',
+        video: 'https://www.youtube.com/watch?v=_wMRgEBqVv4'
+    },
+    'Permissive': {
+        forum: 'https://www.reddit.com/r/Parenting/comments/16xxai5/permissive_vs_gentle_parenting/',
+        book: 'https://positivepsychology.com/parenting-styles/',
+        video: 'https://www.youtube.com/watch?v=PAW3gLZ_uy8'
+    },
+    'Uninvolved': {
+        forum: 'https://parentingscience.com/parenting-style/',
+        book: 'https://www.ncbi.nlm.nih.gov/books/NBK568743/',
+        video: 'https://www.youtube.com/watch?v=fyO8pvpnTdE'
+    },
+    'Positive/Gentle': {
+        forum: 'https://www.reddit.com/r/Parenting/comments/12yepgf/what_is_gentle_parenting/',
+        book: 'https://www.goodreads.com/book/show/26030769-the-gentle-parenting-book',
+        video: 'https://www.youtube.com/watch?v=FJq6cG8w-vE'
+    },
+    'Helicopter': {
+        forum: 'https://www.reddit.com/r/Parenting/comments/tb3nwa/how_do_you_stop_being_a_helicopter_parent/',
+        book: 'https://www.amazon.com/Honey-I-Wrecked-Kids-Misbehavior/dp/0973393931',
+        video: 'https://www.youtube.com/watch?v=Sq6bC4t8cWk'
+    },
+    'Free-Range': {
+        forum: 'https://www.reddit.com/r/Parenting/comments/176ympt/any_free_range_parents_here/',
+        book: 'https://www.goodreads.com/book/show/6085823-free-range-kids',
+        video: 'https://www.youtube.com/watch?v=Bjg0R26VWt4'
+    },
+    'Tiger': {
+        forum: 'https://www.reddit.com/r/Parenting/comments/mb1bk4/tiger_parenting_pros_cons/',
+        book: 'https://www.goodreads.com/book/show/8575087-battle-hymn-of-the-tiger-mother',
+        video: 'https://www.youtube.com/watch?v=4Y2n_EErfA0'
+    }
+};
+
 const methodResources = {
     'Reggio Emilia': {
         forum: 'https://www.reddit.com/r/ReggioEmilia/',
@@ -201,6 +244,16 @@ const methodResources = {
         forum: 'https://pikler.org/en/',
         book: 'https://www.goodreads.com/book/show/18824933-the-pikler-collection',
         video: 'https://www.youtube.com/watch?v=rqQkL2VLRrQ'
+    },
+    'Montessori': {
+        forum: 'https://www.reddit.com/r/Montessori/',
+        book: 'https://www.goodreads.com/book/show/11249316-the-montessori-toddler',
+        video: 'https://www.youtube.com/watch?v=rZL3g6k6Y_M'
+    },
+    'Waldorf': {
+        forum: 'https://www.reddit.com/r/waldorfeducation/',
+        book: 'https://www.goodreads.com/book/show/7241760-the-waldorf-early-childhood-education',
+        video: 'https://www.youtube.com/watch?v=djvPyQn3Rk4'
     },
     'Faith-Based': {
         forum: 'https://www.reddit.com/r/ChristianParenting/',
@@ -250,9 +303,16 @@ function getResources(name) {
             forums: [methodResources[name].forum]
         };
     }
+    if (styleResources[name]) {
+        return {
+            videos: [styleResources[name].video],
+            books: [styleResources[name].book],
+            forums: [styleResources[name].forum]
+        };
+    }
     return {
         videos: [
-            `https://www.youtube.com/results?search_query=${encodeURIComponent(name + ' parenting method')}`
+            `https://www.youtube.com/results?search_query=${encodeURIComponent(name + ' parenting style')}`
         ],
         books: [
             `https://www.goodreads.com/search?q=${encodeURIComponent(name + ' parenting')}`
