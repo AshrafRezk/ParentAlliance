@@ -1,0 +1,31 @@
+{
+  "Montessori": {
+    "traits": [80,40,90,70,75,60,50],
+    "stages": [
+      {"stage":"Newborn","focus":"Observe cues and offer gentle interaction"},
+      {"stage":"0-6 months","focus":"Prepared environment with simple mobiles"},
+      {"stage":"6-12 months","focus":"Encourage reaching and mobility"},
+      {"stage":"1-2 years","focus":"Practical life: pouring, dressing"},
+      {"stage":"3-6 years","focus":"Child-led exploration and independence"}
+    ]
+  },
+  "Attachment Parenting": {
+    "traits": [85,40,60,70,75,50,40],
+    "stages": [
+      {"stage":"Newborn","focus":"Skin-to-skin bonding and responsiveness"},
+      {"stage":"0-6 months","focus":"Babywearing and co-sleep safety"},
+      {"stage":"6-12 months","focus":"Responsive feeding and gentle play"},
+      {"stage":"1-2 years","focus":"Encourage secure exploration with closeness"}
+    ]
+  },
+  "Waldorf": {
+    "traits": [70,60,50,90,70,60,70],
+    "stages": [
+      {"stage":"Newborn","focus":"Warmth, rhythm, and cuddling"},
+      {"stage":"0-6 months","focus":"Simple natural toys"},
+      {"stage":"6-12 months","focus":"Gentle music and movement"},
+      {"stage":"1-2 years","focus":"Imaginative play and storytelling"},
+      {"stage":"3-6 years","focus":"Nature walks and crafts"}
+    ]
+  }
+}

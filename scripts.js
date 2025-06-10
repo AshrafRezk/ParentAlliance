@@ -77,6 +77,7 @@ const methods = [
     {
         name: 'Montessori',
         summary: 'Self-directed activity in prepared environments.',
+        traits: [80,40,90,70,75,60,50],
         good: 80,
         bad: 30,
         grows: ['independence', 'concentration', 'self-motivation'],
@@ -85,6 +86,7 @@ const methods = [
     {
         name: 'Waldorf',
         summary: 'Arts-based learning with daily rhythm.',
+        traits: [70,60,50,90,70,60,70],
         good: 70,
         bad: 40,
         grows: ['creativity', 'imagination'],
@@ -93,6 +95,7 @@ const methods = [
     {
         name: 'Reggio Emilia',
         summary: 'Project-based child-led discovery.',
+        traits: [75,55,60,85,65,50,45],
         good: 75,
         bad: 35,
         grows: ['collaboration', 'critical thinking'],
@@ -101,6 +104,7 @@ const methods = [
     {
         name: 'Charlotte Mason',
         summary: 'Short lessons using living books.',
+        traits: [65,70,70,60,70,70,75],
         good: 70,
         bad: 30,
         grows: ['love of literature', 'habit formation'],
@@ -109,6 +113,7 @@ const methods = [
     {
         name: 'Unschooling',
         summary: 'Learning from life experiences.',
+        traits: [60,30,80,75,65,45,40],
         good: 65,
         bad: 45,
         grows: ['curiosity', 'independence'],
@@ -117,6 +122,7 @@ const methods = [
     {
         name: 'Forest School',
         summary: 'Outdoor nature-rich exploration.',
+        traits: [70,50,85,80,70,55,40],
         good: 80,
         bad: 30,
         grows: ['resilience', 'environmental awareness'],
@@ -125,6 +131,7 @@ const methods = [
     {
         name: 'Classical Education',
         summary: 'Grammar, Logic, Rhetoric.',
+        traits: [50,80,40,50,65,80,90],
         good: 70,
         bad: 40,
         grows: ['logic', 'memorization'],
@@ -133,6 +140,7 @@ const methods = [
     {
         name: 'RIE',
         summary: 'Respectful infant caregiving.',
+        traits: [90,40,60,60,80,50,40],
         good: 85,
         bad: 20,
         grows: ['autonomy', 'secure attachment'],
@@ -141,6 +149,7 @@ const methods = [
     {
         name: 'Pikler',
         summary: 'Independent motor development.',
+        traits: [80,40,70,50,75,60,40],
         good: 80,
         bad: 25,
         grows: ['confidence', 'motor skills'],
@@ -149,6 +158,7 @@ const methods = [
     {
         name: 'Faith-Based',
         summary: 'Guided by scripture and moral character.',
+        traits: [70,60,50,70,80,70,80],
         good: 85,
         bad: 30,
         grows: ['moral development', 'community'],
@@ -177,6 +187,8 @@ const icons = {
     'Faith-Based': '🙏'
 };
 
+let journeyData = {};
+
 function getExample(name) {
     return `An example of ${name} in action.`;
 }
@@ -199,6 +211,21 @@ function getResources(name) {
 }
 
 function updateChart(item){if(!window.radarChart)return;radarChart.data.datasets[0].label=item.name;radarChart.data.datasets[0].data=item.traits;radarChart.update();}
+
+function updateTimeline(name){
+    const timeline=document.getElementById('journeyTimeline');
+    if(!timeline||!journeyData[name]){timeline.innerHTML='';return;}
+    timeline.innerHTML='';
+    journeyData[name].stages.forEach((s,i)=>{
+        const el=document.createElement('div');
+        el.className='milestone';
+        el.innerHTML=`<h4>${s.stage}</h4><p>${s.focus}</p>`;
+        timeline.appendChild(el);
+        if(window.motion){
+            motion.animate(el,{opacity:[0,1],transform:['translateY(20px)','translateY(0)']},{delay:i*0.1,duration:0.4});
+        }
+    });
+}
 
 function showModal(item) {
     const modal = document.getElementById('infoModal');
@@ -359,6 +386,7 @@ function createCard(item) {
         document.querySelectorAll('.card.active').forEach(c => c.classList.remove('active'));
         card.classList.add('active');
         updateChart(item);
+        updateTimeline(item.name);
     });
 
     return card;
@@ -369,6 +397,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const methodContainer = document.querySelector('#methods .cards');
     styles.forEach(item => styleContainer.appendChild(createCard(item)));
     methods.forEach(item => methodContainer.appendChild(createCard(item)));
+
+    fetch('journeys.json').then(r=>r.json()).then(d=>{journeyData=d;});
 
     let chartInitialized = false;
     const chartObserver = new IntersectionObserver(entries => {
