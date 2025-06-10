@@ -7,3 +7,5 @@ The radar chart loads on demand and animates smoothly when a card is selected.
 A mobile bottom navigation bar and floating help button improve the mobile experience.
 The chart now floats on the side of the screen with a toggle to hide or show it.
 It smoothly slides in and out when toggled instead of hiding on scroll.
+Guided journeys now load from an external JSON file and animate as a timeline
+based on the selected method. The radar chart also updates for each approach.

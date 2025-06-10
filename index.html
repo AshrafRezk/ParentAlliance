@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@motionone/dom/dist/motion.umd.min.js"></script>
 </head>
 <body>
     <header>
@@ -48,13 +49,7 @@
         <section id="journeys">
             <h2>Guided Journeys</h2>
             <p>Core ideas distilled from respected sources to cultivate confident, compassionate leaders.</p>
-            <ul>
-                <li>Encourage independence and responsibility daily.</li>
-                <li>Model empathy and patience through every interaction.</li>
-                <li>Create rhythm and structure to nurture security.</li>
-                <li>Invite curiosity with nature walks, hands-on projects, and storytelling.</li>
-                <li>Share purposeful habits rooted in kindness and resilience.</li>
-            </ul>
+            <div id="journeyTimeline" class="timeline"></div>
         </section>
     </main>
     <div id="infoModal" class="modal">
