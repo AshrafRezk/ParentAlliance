@@ -10,3 +10,4 @@ Features include:
 - Interactive radar chart comparing traits
 - Global search filter
 - Animated tagline and card reveal
+- Clickable cards open a modal with trait info and video/book links

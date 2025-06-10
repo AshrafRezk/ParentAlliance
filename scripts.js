@@ -361,6 +361,7 @@ function createCard(item) {
         card.classList.toggle('active');
         updateChart(item);
         details.classList.toggle('show');
+        showModal(item);
     });
 
     return card;
