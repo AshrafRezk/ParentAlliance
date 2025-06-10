@@ -337,88 +337,7 @@ function updateTimeline(name){
         }
     });
 }
-
-function showModal(item) {
-    const modal = document.getElementById('infoModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalSummary = document.getElementById('modalSummary');
-    const modalTraits = document.getElementById('modalTraits');
-    const modalVideos = document.getElementById('modalVideos');
-    const modalBooks = document.getElementById('modalBooks');
-    const modalForums = document.getElementById('modalForums');
-
-    modalTitle.textContent = item.name;
-    modalSummary.textContent = item.summary;
-
-    modalTraits.innerHTML = '';
-    const growTitle = document.createElement('h4');
-    growTitle.textContent = 'Fosters';
-    const growList = document.createElement('ul');
-    item.grows.forEach(t => {
-        const li = document.createElement('li');
-        li.textContent = t;
-        growList.appendChild(li);
-    });
-    const neglectTitle = document.createElement('h4');
-    neglectTitle.textContent = 'May Neglect';
-    const neglectList = document.createElement('ul');
-    item.neglects.forEach(t => {
-        const li = document.createElement('li');
-        li.textContent = t;
-        neglectList.appendChild(li);
-    });
-    modalTraits.appendChild(growTitle);
-    modalTraits.appendChild(growList);
-    modalTraits.appendChild(neglectTitle);
-    modalTraits.appendChild(neglectList);
-
-    const resources = getResources(item.name);
-    modalForums.innerHTML = '';
-    resources.forums.forEach(url => {
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = url;
-        a.target = '_blank';
-        a.textContent = `Forum for ${item.name}`;
-        li.appendChild(a);
-        modalForums.appendChild(li);
-    });
-    modalVideos.innerHTML = '';
-    resources.videos.forEach(url => {
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = url;
-        a.target = '_blank';
-        a.textContent = `YouTube search for ${item.name}`;
-        li.appendChild(a);
-        modalVideos.appendChild(li);
-    });
-    modalBooks.innerHTML = '';
-    resources.books.forEach(url => {
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = url;
-        a.target = '_blank';
-        a.textContent = `Books about ${item.name}`;
-        li.appendChild(a);
-        modalBooks.appendChild(li);
-    });
-
-    modal.classList.add('active');
-}
-
-document.getElementById('modalClose').addEventListener('click', () => {
-    document.getElementById('infoModal').classList.remove('active');
-});
-
-document.getElementById('infoModal').addEventListener('click', e => {
-    if (e.target.id === 'infoModal') {
-        e.target.classList.remove('active');
-    }
-});
-
-
-function createCard(item, showModalOnClick = false) {
+function createCard(item) {
     const card = document.createElement('div');
     card.className = 'card';
     card.id = item.name.replace(/\W/g,'');
@@ -509,7 +428,6 @@ function createCard(item, showModalOnClick = false) {
         card.classList.add('active');
         updateChart(item);
         updateTimeline(item.name);
-        if (showModalOnClick) showModal(item);
     });
 
     return card;
@@ -519,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const styleContainer = document.querySelector('#styles .cards');
     const methodContainer = document.querySelector('#methods .cards');
     styles.forEach(item => styleContainer.appendChild(createCard(item)));
-    methods.forEach(item => methodContainer.appendChild(createCard(item, true)));
+    methods.forEach(item => methodContainer.appendChild(createCard(item)));
 
     fetch('journeys.json').then(r=>r.json()).then(d=>{journeyData=d;});
 
