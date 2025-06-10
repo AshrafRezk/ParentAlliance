@@ -27,5 +27,157 @@
       {"stage":"1-2 years","focus":"Imaginative play and storytelling"},
       {"stage":"3-6 years","focus":"Nature walks and crafts"}
     ]
+  },
+  "Authoritative": {
+    "traits": [80,70,75,65,80,70,80],
+    "stages": [
+      {"stage":"Infancy","focus":"Warm, responsive care with clear limits"},
+      {"stage":"Toddler","focus":"Explain reasons for rules"},
+      {"stage":"Preschool","focus":"Encourage choices and independence"},
+      {"stage":"School Age","focus":"Discuss consequences together"}
+    ]
+  },
+  "Authoritarian": {
+    "traits": [30,90,40,40,50,70,90],
+    "stages": [
+      {"stage":"Infancy","focus":"Strict schedule and obedience"},
+      {"stage":"Toddler","focus":"Enforce rules quickly"},
+      {"stage":"Preschool","focus":"Demand respect with little dialogue"},
+      {"stage":"School Age","focus":"High expectations and discipline"}
+    ]
+  },
+  "Permissive": {
+    "traits": [70,30,60,80,60,40,30],
+    "stages": [
+      {"stage":"Infancy","focus":"Highly responsive with few demands"},
+      {"stage":"Toddler","focus":"Child-led play and choices"},
+      {"stage":"Preschool","focus":"Avoid strict rules"},
+      {"stage":"School Age","focus":"Support expression over structure"}
+    ]
+  },
+  "Uninvolved": {
+    "traits": [20,20,70,40,30,20,10],
+    "stages": [
+      {"stage":"Infancy","focus":"Minimal interaction"},
+      {"stage":"Toddler","focus":"Little guidance or engagement"},
+      {"stage":"Preschool","focus":"Child largely independent"},
+      {"stage":"School Age","focus":"Few rules or expectations"}
+    ]
+  },
+  "Positive/Gentle": {
+    "traits": [85,50,60,70,75,65,60],
+    "stages": [
+      {"stage":"Infancy","focus":"Respond with empathy"},
+      {"stage":"Toddler","focus":"Model feelings and set gentle limits"},
+      {"stage":"Preschool","focus":"Problem-solve together"},
+      {"stage":"School Age","focus":"Use natural consequences"}
+    ]
+  },
+  "Helicopter": {
+    "traits": [60,75,40,45,60,55,70],
+    "stages": [
+      {"stage":"Infancy","focus":"Closely monitor every need"},
+      {"stage":"Toddler","focus":"Step in quickly to help"},
+      {"stage":"Preschool","focus":"Oversee all activities"},
+      {"stage":"School Age","focus":"Advocate heavily in school"}
+    ]
+  },
+  "Free-Range": {
+    "traits": [70,50,80,70,75,60,50],
+    "stages": [
+      {"stage":"Infancy","focus":"Provide safe exploration"},
+      {"stage":"Toddler","focus":"Allow choices with supervision"},
+      {"stage":"Preschool","focus":"Supervise from a distance"},
+      {"stage":"School Age","focus":"Encourage independent outdoor play"}
+    ]
+  },
+  "Tiger": {
+    "traits": [40,90,50,40,70,80,85],
+    "stages": [
+      {"stage":"Infancy","focus":"Focus on early skills"},
+      {"stage":"Toddler","focus":"Structured lessons"},
+      {"stage":"Preschool","focus":"Demand high performance"},
+      {"stage":"School Age","focus":"Intense academic training"}
+    ]
+  },
+  "Reggio Emilia": {
+    "traits": [75,55,60,85,65,50,45],
+    "stages": [
+      {"stage":"Newborn","focus":"Observe and build relationships"},
+      {"stage":"0-6 months","focus":"Natural materials and simple art"},
+      {"stage":"6-12 months","focus":"Explore using all senses"},
+      {"stage":"1-2 years","focus":"Projects around children's interests"},
+      {"stage":"3-6 years","focus":"Collaborative group learning"}
+    ]
+  },
+  "Charlotte Mason": {
+    "traits": [65,70,70,60,70,70,75],
+    "stages": [
+      {"stage":"Newborn","focus":"Gentle routine and nature"},
+      {"stage":"0-6 months","focus":"Read living picture books"},
+      {"stage":"6-12 months","focus":"Short varied lessons"},
+      {"stage":"1-2 years","focus":"Nature walks and narration"},
+      {"stage":"3-6 years","focus":"Habit training and copywork"}
+    ]
+  },
+  "Unschooling": {
+    "traits": [60,30,80,75,65,45,40],
+    "stages": [
+      {"stage":"Newborn","focus":"Follow the child's cues"},
+      {"stage":"0-6 months","focus":"Play-based discovery"},
+      {"stage":"6-12 months","focus":"Encourage curiosity"},
+      {"stage":"1-2 years","focus":"Learning from daily tasks"},
+      {"stage":"3-6 years","focus":"Interest-led projects"}
+    ]
+  },
+  "Forest School": {
+    "traits": [70,50,85,80,70,55,40],
+    "stages": [
+      {"stage":"Newborn","focus":"Outdoor bonding when possible"},
+      {"stage":"0-6 months","focus":"Sensory play in nature"},
+      {"stage":"6-12 months","focus":"Explore textures outside"},
+      {"stage":"1-2 years","focus":"Free play in woods"},
+      {"stage":"3-6 years","focus":"Build shelters and crafts"}
+    ]
+  },
+  "Classical Education": {
+    "traits": [50,80,40,50,65,80,90],
+    "stages": [
+      {"stage":"Newborn","focus":"Expose to language and music"},
+      {"stage":"0-6 months","focus":"Memorization through songs"},
+      {"stage":"6-12 months","focus":"Stories of virtue"},
+      {"stage":"1-2 years","focus":"Simple copywork letters"},
+      {"stage":"3-6 years","focus":"Grammar stage recitations"}
+    ]
+  },
+  "RIE": {
+    "traits": [90,40,60,60,80,50,40],
+    "stages": [
+      {"stage":"Newborn","focus":"Unhurried observations"},
+      {"stage":"0-6 months","focus":"Caregiving moments as quality time"},
+      {"stage":"6-12 months","focus":"Allow free movement"},
+      {"stage":"1-2 years","focus":"Set clear but respectful limits"},
+      {"stage":"3-6 years","focus":"Encourage self-initiated play"}
+    ]
+  },
+  "Pikler": {
+    "traits": [80,40,70,50,75,60,40],
+    "stages": [
+      {"stage":"Newborn","focus":"Respectful handling and floor time"},
+      {"stage":"0-6 months","focus":"Minimal equipment for movement"},
+      {"stage":"6-12 months","focus":"Climbing structures for independence"},
+      {"stage":"1-2 years","focus":"Free play to master gross motor skills"},
+      {"stage":"3-6 years","focus":"Parent as observer"}
+    ]
+  },
+  "Faith-Based": {
+    "traits": [70,60,50,70,80,70,80],
+    "stages": [
+      {"stage":"Newborn","focus":"Share blessings and prayers"},
+      {"stage":"0-6 months","focus":"Read simple scripture stories"},
+      {"stage":"6-12 months","focus":"Teach short songs"},
+      {"stage":"1-2 years","focus":"Model values each day"},
+      {"stage":"3-6 years","focus":"Participate in community worship"}
+    ]
   }
 }
