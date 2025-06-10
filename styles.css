@@ -255,16 +255,26 @@ footer {
 @media (max-width: 768px) {
     .chart-container {
         top: auto;
-        bottom: 1rem;
+        bottom: 5rem;
         left: 50%;
         right: auto;
         transform: translateX(-50%);
         width: 90%;
         height: 250px;
     }
+    .chart-container.hidden {
+        transform: translateX(-50%) translateY(100%);
+    }
     .chart-toggle {
         top: auto;
-        bottom: calc(250px + 1.5rem);
+        bottom: calc(250px + 6rem);
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        transition: bottom 0.3s ease;
+    }
+    #radarContainer.hidden + #chartToggle {
+        bottom: 1rem;
         left: 50%;
         right: auto;
         transform: translateX(-50%);
