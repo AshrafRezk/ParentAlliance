@@ -2,6 +2,7 @@ const styles = [
     {
         name: 'Authoritative',
         summary: 'High expectations with warmth and respect.',
+        traits: [80,70,75,65,80,70,80],
         good: 80,
         bad: 20,
         grows: ['responsibility', 'confidence', 'empathy'],
@@ -10,6 +11,7 @@ const styles = [
     {
         name: 'Authoritarian',
         summary: 'Strict rules and obedience focus.',
+        traits: [30,90,40,40,50,70,90],
         good: 60,
         bad: 40,
         grows: ['discipline', 'respect for rules'],
@@ -18,6 +20,7 @@ const styles = [
     {
         name: 'Permissive',
         summary: 'Lenient with few demands.',
+        traits: [70,30,60,80,60,40,30],
         good: 70,
         bad: 50,
         grows: ['self-expression', 'creativity'],
@@ -26,6 +29,7 @@ const styles = [
     {
         name: 'Uninvolved',
         summary: 'Low responsiveness and guidance.',
+        traits: [20,20,70,40,30,20,10],
         good: 30,
         bad: 70,
         grows: ['self-reliance'],
@@ -34,6 +38,7 @@ const styles = [
     {
         name: 'Positive/Gentle',
         summary: 'Empathy and natural consequences.',
+        traits: [85,50,60,70,75,65,60],
         good: 85,
         bad: 25,
         grows: ['cooperation', 'problem-solving'],
@@ -42,6 +47,7 @@ const styles = [
     {
         name: 'Helicopter',
         summary: 'Overprotective and involved.',
+        traits: [60,75,40,45,60,55,70],
         good: 60,
         bad: 40,
         grows: ['security', 'achievement'],
@@ -50,6 +56,7 @@ const styles = [
     {
         name: 'Free-Range',
         summary: 'Encourages independence within boundaries.',
+        traits: [70,50,80,70,75,60,50],
         good: 75,
         bad: 30,
         grows: ['confidence', 'resilience'],
@@ -58,6 +65,7 @@ const styles = [
     {
         name: 'Tiger',
         summary: 'Achievement-focused discipline.',
+        traits: [40,90,50,40,70,80,85],
         good: 70,
         bad: 50,
         grows: ['work ethic', 'perseverance'],
@@ -159,12 +167,7 @@ function getResources(name) {
     };
 }
 
-function updateChart(item) {
-    const chartContainer = document.getElementById('statsChart');
-    if (!chartContainer) return;
-    console.log('Updating chart for', item.name);
-    // Implementation would update chart elements based on item data
-}
+function updateChart(item){if(!window.radarChart)return;radarChart.data.datasets[0].label=item.name;radarChart.data.datasets[0].data=item.traits;radarChart.update();}
 
 function showModal(item) {
     const modal = document.getElementById('infoModal');
@@ -299,13 +302,9 @@ function createCard(item) {
     card.appendChild(details);
 
     card.addEventListener('click', () => {
-        if (typeof updateChart === 'function') {
-            updateChart(item);
-        }
-        details.classList.toggle('show');
-        if (document.getElementById('infoModal')) {
-            showModal(item);
-        }
+        document.querySelectorAll('.card.active').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        updateChart(item);
     });
 
     return card;
@@ -317,6 +316,21 @@ document.addEventListener('DOMContentLoaded', () => {
     styles.forEach(item => styleContainer.appendChild(createCard(item)));
     methods.forEach(item => methodContainer.appendChild(createCard(item)));
 
+    const ctx = document.getElementById('radarChart').getContext('2d');
+    window.radarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: ['Empathy','Discipline','Independence','Creativity','Confidence','Accountability','Structure'],
+            datasets: [{
+                label: '',
+                data: [0,0,0,0,0,0,0],
+                backgroundColor: 'rgba(118,163,255,0.2)',
+                borderColor: '#76a3ff'
+            }]
+        },
+        options: { responsive: true, animation: { duration: 500 } }
+    });
+
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -327,5 +341,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.card').forEach(card => {
         observer.observe(card);
+    });
+
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', e => {
+        const term = e.target.value.toLowerCase();
+        document.querySelectorAll('.card').forEach(c => {
+            const text = c.querySelector('h3').textContent.toLowerCase() + ' ' + c.querySelector('p').textContent.toLowerCase();
+            c.style.display = text.includes(term) ? '' : 'none';
+        });
+    });
+
+    const themeToggle = document.getElementById('themeToggle');
+    if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+    });
+
+    const sidebar = document.getElementById('sidebar');
+    document.getElementById('menuToggle').addEventListener('click', () => sidebar.classList.toggle('open'));
+    sidebar.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', e => {
+            e.preventDefault();
+            sidebar.classList.remove('open');
+            document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+        });
     });
 });

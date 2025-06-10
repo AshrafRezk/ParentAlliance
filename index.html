@@ -5,13 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parent Ally</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <header>
         <h1>Parent Ally</h1>
         <p>Guiding your parenting journey with best practices</p>
+        <input id="searchInput" type="text" placeholder="What are you struggling with?">
+        <button id="themeToggle">Toggle Theme</button>
     </header>
+    <button id="menuToggle">&#9776;</button>
+    <nav id="sidebar">
+        <ul>
+            <li><a href="#styles">Parenting Styles</a></li>
+            <li><a href="#methods">Methods</a></li>
+            <li><a href="#journeys">Journeys</a></li>
+        </ul>
+    </nav>
     <main>
+        <aside id="radarContainer" class="chart-container">
+            <canvas id="radarChart"></canvas>
+        </aside>
         <section id="styles">
             <h2>Parenting Styles</h2>
             <p class="hint">Click a card to learn which traits it encourages or may overlook.</p>
@@ -52,8 +66,17 @@
         </div>
     </div>
     <footer>
+        <form id="newsletter">
+            <label for="email">Newsletter Signup</label>
+            <input type="email" id="email" placeholder="you@example.com">
+            <button type="submit">Subscribe</button>
+        </form>
+        <button id='startJourney'>Start Your Journey</button>
+<div class="socials">
+            <a href="#">FB</a> <a href="#">TW</a> <a href="#">IG</a>
+        </div>
         <p>&copy; 2023 Parent Ally</p>
-    </footer>
+</footer>
     <script src="scripts.js"></script>
 </body>
 </html>
