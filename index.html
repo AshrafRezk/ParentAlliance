@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parent Ally</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -12,6 +15,7 @@
         <h1>Parent Ally</h1>
         <p>Guiding your parenting journey with best practices</p>
         <input id="searchInput" type="text" placeholder="What are you struggling with?">
+        <ul id="searchSuggestions" class="suggestions"></ul>
         <button id="themeToggle">Toggle Theme</button>
     </header>
     <button id="menuToggle">&#9776;</button>
@@ -24,7 +28,7 @@
     </nav>
     <main>
         <aside id="radarContainer" class="chart-container">
-            <canvas id="radarChart"></canvas>
+            <canvas id="radarChart" aria-label="Traits radar chart"></canvas>
         </aside>
         <section id="styles">
             <h2>Parenting Styles</h2>
@@ -77,6 +81,14 @@
         </div>
         <p>&copy; 2023 Parent Ally</p>
 </footer>
+    <nav id="bottomNav">
+        <a href="#styles">Styles</a>
+        <a href="#methods">Methods</a>
+        <a href="#journeys">Guided Journey</a>
+        <a href="#" id="tipsLink">Tips</a>
+        <a href="#" id="profileLink">Profile</a>
+    </nav>
+    <button id="helpButton" class="help-btn">Need Help?</button>
     <script src="scripts.js"></script>
 </body>
 </html>
