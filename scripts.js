@@ -1,6 +1,7 @@
 const styles = [
     {
         name: 'Authoritative',
+        icon: '🤝',
         summary: 'High expectations with warmth and respect.',
         good: 80,
         bad: 20,
@@ -9,6 +10,7 @@ const styles = [
     },
     {
         name: 'Authoritarian',
+        icon: '⚔️',
         summary: 'Strict rules and obedience focus.',
         good: 60,
         bad: 40,
@@ -17,6 +19,7 @@ const styles = [
     },
     {
         name: 'Permissive',
+        icon: '🎈',
         summary: 'Lenient with few demands.',
         good: 70,
         bad: 50,
@@ -25,6 +28,7 @@ const styles = [
     },
     {
         name: 'Uninvolved',
+        icon: '💤',
         summary: 'Low responsiveness and guidance.',
         good: 30,
         bad: 70,
@@ -33,6 +37,7 @@ const styles = [
     },
     {
         name: 'Positive/Gentle',
+        icon: '🌱',
         summary: 'Empathy and natural consequences.',
         good: 85,
         bad: 25,
@@ -41,6 +46,7 @@ const styles = [
     },
     {
         name: 'Helicopter',
+        icon: '🚁',
         summary: 'Overprotective and involved.',
         good: 60,
         bad: 40,
@@ -49,6 +55,7 @@ const styles = [
     },
     {
         name: 'Free-Range',
+        icon: '🐓',
         summary: 'Encourages independence within boundaries.',
         good: 75,
         bad: 30,
@@ -57,6 +64,7 @@ const styles = [
     },
     {
         name: 'Tiger',
+        icon: '🐯',
         summary: 'Achievement-focused discipline.',
         good: 70,
         bad: 50,
@@ -68,6 +76,7 @@ const styles = [
 const methods = [
     {
         name: 'Montessori',
+        icon: '🧩',
         summary: 'Self-directed activity in prepared environments.',
         good: 80,
         bad: 30,
@@ -76,6 +85,7 @@ const methods = [
     },
     {
         name: 'Waldorf',
+        icon: '🎨',
         summary: 'Arts-based learning with daily rhythm.',
         good: 70,
         bad: 40,
@@ -84,6 +94,7 @@ const methods = [
     },
     {
         name: 'Reggio Emilia',
+        icon: '🏗️',
         summary: 'Project-based child-led discovery.',
         good: 75,
         bad: 35,
@@ -92,6 +103,7 @@ const methods = [
     },
     {
         name: 'Charlotte Mason',
+        icon: '📚',
         summary: 'Short lessons using living books.',
         good: 70,
         bad: 30,
@@ -100,6 +112,7 @@ const methods = [
     },
     {
         name: 'Unschooling',
+        icon: '🛤️',
         summary: 'Learning from life experiences.',
         good: 65,
         bad: 45,
@@ -108,6 +121,7 @@ const methods = [
     },
     {
         name: 'Forest School',
+        icon: '🌲',
         summary: 'Outdoor nature-rich exploration.',
         good: 80,
         bad: 30,
@@ -116,6 +130,7 @@ const methods = [
     },
     {
         name: 'Classical Education',
+        icon: '🏛️',
         summary: 'Grammar, Logic, Rhetoric.',
         good: 70,
         bad: 40,
@@ -124,6 +139,7 @@ const methods = [
     },
     {
         name: 'RIE',
+        icon: '👶',
         summary: 'Respectful infant caregiving.',
         good: 85,
         bad: 20,
@@ -132,6 +148,7 @@ const methods = [
     },
     {
         name: 'Pikler',
+        icon: '🤸',
         summary: 'Independent motor development.',
         good: 80,
         bad: 25,
@@ -140,6 +157,7 @@ const methods = [
     },
     {
         name: 'Faith-Based',
+        icon: '🙏',
         summary: 'Guided by scripture and moral character.',
         good: 85,
         bad: 30,
@@ -148,25 +166,166 @@ const methods = [
     }
 ];
 
+let radarChart;
+
+function getTraitValues(item) {
+    const g = item.good;
+    const b = item.bad;
+    const clamp = v => Math.max(0, Math.min(100, v));
+    return {
+        Empathy: clamp(g),
+        Discipline: clamp(100 - b),
+        Independence: clamp(g - b / 2),
+        Creativity: clamp(g - b / 3),
+        Confidence: clamp(g - b / 4),
+        Accountability: clamp(100 - b / 2),
+        Structure: clamp(g + (100 - b) / 3)
+    };
+}
+
+function getResources(name) {
+    return {
+        videos: [
+            `https://www.youtube.com/results?search_query=${encodeURIComponent(name + ' parenting method')}`
+        ],
+        books: [
+            `https://www.goodreads.com/search?q=${encodeURIComponent(name + ' parenting')}`
+        ]
+    };
+}
+
+function updateChart(item) {
+    const ctx = document.getElementById('traitChart').getContext('2d');
+    const traits = getTraitValues(item);
+    const labels = Object.keys(traits);
+    const values = Object.values(traits);
+    if (radarChart) radarChart.destroy();
+    radarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels,
+            datasets: [{
+                label: item.name,
+                data: values,
+                backgroundColor: 'rgba(118,163,255,0.2)',
+                borderColor: '#76a3ff',
+                pointBackgroundColor: '#76a3ff'
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: { r: { min: 0, max: 100 } },
+            animation: { duration: 600 }
+        }
+    });
+    document.getElementById('radarPanel').classList.add('show');
+}
+
+function showModal(item) {
+    const modal = document.getElementById('infoModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSummary = document.getElementById('modalSummary');
+    const modalTraits = document.getElementById('modalTraits');
+    const modalVideos = document.getElementById('modalVideos');
+    const modalBooks = document.getElementById('modalBooks');
+
+    modalTitle.textContent = item.name;
+    modalSummary.textContent = item.summary;
+
+    modalTraits.innerHTML = '';
+    const growTitle = document.createElement('h4');
+    growTitle.textContent = 'Fosters';
+    const growList = document.createElement('ul');
+    item.grows.forEach(t => {
+        const li = document.createElement('li');
+        li.textContent = t;
+        growList.appendChild(li);
+    });
+    const neglectTitle = document.createElement('h4');
+    neglectTitle.textContent = 'May Neglect';
+    const neglectList = document.createElement('ul');
+    item.neglects.forEach(t => {
+        const li = document.createElement('li');
+        li.textContent = t;
+        neglectList.appendChild(li);
+    });
+    modalTraits.appendChild(growTitle);
+    modalTraits.appendChild(growList);
+    modalTraits.appendChild(neglectTitle);
+    modalTraits.appendChild(neglectList);
+
+    const resources = getResources(item.name);
+    modalVideos.innerHTML = '';
+    resources.videos.forEach(url => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.textContent = `YouTube search for ${item.name}`;
+        li.appendChild(a);
+        modalVideos.appendChild(li);
+    });
+    modalBooks.innerHTML = '';
+    resources.books.forEach(url => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.textContent = `Books about ${item.name}`;
+        li.appendChild(a);
+        modalBooks.appendChild(li);
+    });
+
+    modal.classList.add('active');
+}
+
+document.getElementById('modalClose').addEventListener('click', () => {
+    document.getElementById('infoModal').classList.remove('active');
+});
+
+document.getElementById('infoModal').addEventListener('click', e => {
+    if (e.target.id === 'infoModal') {
+        e.target.classList.remove('active');
+    }
+});
+
 
 function createCard(item) {
     const card = document.createElement('div');
     card.className = 'card';
+    const icon = document.createElement('div');
+    icon.className = 'card-icon';
+    icon.textContent = item.icon || '';
     const title = document.createElement('h3');
     title.textContent = item.name;
     const summary = document.createElement('p');
     summary.textContent = item.summary;
+    const goodWrap = document.createElement('div');
+    goodWrap.className = 'meter-container';
+    const goodLabel = document.createElement('span');
+    goodLabel.className = 'meter-label';
+    goodLabel.textContent = 'Strengths';
     const goodMeter = document.createElement('div');
     goodMeter.className = 'meter';
     const goodBar = document.createElement('div');
     goodBar.style.width = item.good + '%';
     goodMeter.appendChild(goodBar);
+    goodWrap.appendChild(goodLabel);
+    goodWrap.appendChild(goodMeter);
+
+    const badWrap = document.createElement('div');
+    badWrap.className = 'meter-container';
+    const badLabel = document.createElement('span');
+    badLabel.className = 'meter-label';
+    badLabel.textContent = 'Blind Spots';
     const badMeter = document.createElement('div');
     badMeter.className = 'meter';
     const badBar = document.createElement('div');
     badBar.style.width = item.bad + '%';
     badBar.style.background = '#ff9e9e';
     badMeter.appendChild(badBar);
+    badWrap.appendChild(badLabel);
+    badWrap.appendChild(badMeter);
 
     const details = document.createElement('div');
     details.className = 'details';
@@ -191,14 +350,17 @@ function createCard(item) {
     details.appendChild(neglectTitle);
     details.appendChild(neglectList);
 
+    card.appendChild(icon);
     card.appendChild(title);
     card.appendChild(summary);
-    card.appendChild(goodMeter);
-    card.appendChild(badMeter);
+    card.appendChild(goodWrap);
+    card.appendChild(badWrap);
     card.appendChild(details);
 
     card.addEventListener('click', () => {
-        details.classList.toggle('visible');
+        card.classList.toggle('active');
+        updateChart(item);
+        details.classList.toggle('show');
     });
 
     return card;
@@ -209,6 +371,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const methodContainer = document.querySelector('#methods .cards');
     styles.forEach(item => styleContainer.appendChild(createCard(item)));
     methods.forEach(item => methodContainer.appendChild(createCard(item)));
+
+    const questions = [
+        'What should I do if my toddler bites?',
+        'How can I encourage independence?',
+        'Ways to handle tantrums'
+    ];
+    const datalist = document.getElementById('suggestions');
+    if (datalist) {
+        questions.forEach(q => {
+            const option = document.createElement('option');
+            option.value = q;
+            datalist.appendChild(option);
+        });
+    }
+
+    const quizForm = document.getElementById('quizForm');
+    if (quizForm) {
+        quizForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const style = e.target.style.value;
+            document.getElementById('quizResult').textContent = `You might enjoy exploring ${style} approaches.`;
+        });
+    }
+
+    const darkBtn = document.getElementById('darkToggle');
+    if (darkBtn) {
+        darkBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+        });
+    }
 
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
@@ -221,4 +414,20 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.card').forEach(card => {
         observer.observe(card);
     });
+
+    const searchInput = document.getElementById('globalSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            const term = searchInput.value.toLowerCase();
+            document.querySelectorAll('.cards .card').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(term) ? '' : 'none';
+            });
+        });
+    }
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+    }
 });
