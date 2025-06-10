@@ -156,6 +156,37 @@ const methods = [
     }
 ];
 
+const icons = {
+    'Authoritative': '🎯',
+    'Authoritarian': '🛡️',
+    'Permissive': '🎈',
+    'Uninvolved': '😴',
+    'Positive/Gentle': '🧸',
+    'Helicopter': '🚁',
+    'Free-Range': '🐔',
+    'Tiger': '🐯',
+    'Montessori': '🏫',
+    'Waldorf': '🎨',
+    'Reggio Emilia': '🧩',
+    'Charlotte Mason': '📚',
+    'Unschooling': '🌱',
+    'Forest School': '🌳',
+    'Classical Education': '🏛️',
+    'RIE': '👶',
+    'Pikler': '🤸',
+    'Faith-Based': '🙏'
+};
+
+function getExample(name) {
+    return `An example of ${name} in action.`;
+}
+
+function renderMarkdown(text) {
+    return text
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>');
+}
+
 function getResources(name) {
     return {
         videos: [
@@ -241,10 +272,14 @@ document.getElementById('infoModal').addEventListener('click', e => {
 function createCard(item) {
     const card = document.createElement('div');
     card.className = 'card';
+    card.id = item.name.replace(/\W/g,'');
+    const icon = document.createElement('span');
+    icon.className = 'card-icon';
+    icon.textContent = icons[item.name] || '👪';
     const title = document.createElement('h3');
     title.textContent = item.name;
     const summary = document.createElement('p');
-    summary.textContent = item.summary;
+    summary.innerHTML = renderMarkdown(item.summary);
     const goodWrap = document.createElement('div');
     goodWrap.className = 'meter-container';
     const goodLabel = document.createElement('span');
@@ -257,6 +292,14 @@ function createCard(item) {
     goodMeter.appendChild(goodBar);
     goodWrap.appendChild(goodLabel);
     goodWrap.appendChild(goodMeter);
+
+    const goodDetails = document.createElement('details');
+    const goodSummary = document.createElement('summary');
+    goodSummary.textContent = 'More on Strengths';
+    const goodExample = document.createElement('p');
+    goodExample.innerHTML = renderMarkdown(getExample(item.name));
+    goodDetails.appendChild(goodSummary);
+    goodDetails.appendChild(goodExample);
 
     const badWrap = document.createElement('div');
     badWrap.className = 'meter-container';
@@ -271,6 +314,14 @@ function createCard(item) {
     badMeter.appendChild(badBar);
     badWrap.appendChild(badLabel);
     badWrap.appendChild(badMeter);
+
+    const badDetails = document.createElement('details');
+    const badSummary = document.createElement('summary');
+    badSummary.textContent = 'More on Blind Spots';
+    const badExample = document.createElement('p');
+    badExample.innerHTML = renderMarkdown('Consider balance and awareness.');
+    badDetails.appendChild(badSummary);
+    badDetails.appendChild(badExample);
 
     const details = document.createElement('div');
     details.className = 'details';
@@ -295,10 +346,13 @@ function createCard(item) {
     details.appendChild(neglectTitle);
     details.appendChild(neglectList);
 
+    card.appendChild(icon);
     card.appendChild(title);
     card.appendChild(summary);
     card.appendChild(goodWrap);
+    card.appendChild(goodDetails);
     card.appendChild(badWrap);
+    card.appendChild(badDetails);
     card.appendChild(details);
 
     card.addEventListener('click', () => {
@@ -316,20 +370,27 @@ document.addEventListener('DOMContentLoaded', () => {
     styles.forEach(item => styleContainer.appendChild(createCard(item)));
     methods.forEach(item => methodContainer.appendChild(createCard(item)));
 
-    const ctx = document.getElementById('radarChart').getContext('2d');
-    window.radarChart = new Chart(ctx, {
-        type: 'radar',
-        data: {
-            labels: ['Empathy','Discipline','Independence','Creativity','Confidence','Accountability','Structure'],
-            datasets: [{
-                label: '',
-                data: [0,0,0,0,0,0,0],
-                backgroundColor: 'rgba(118,163,255,0.2)',
-                borderColor: '#76a3ff'
-            }]
-        },
-        options: { responsive: true, animation: { duration: 500 } }
+    let chartInitialized = false;
+    const chartObserver = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting && !chartInitialized) {
+            chartInitialized = true;
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            window.radarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Empathy','Discipline','Independence','Creativity','Confidence','Accountability','Structure'],
+                    datasets: [{
+                        label: '',
+                        data: [0,0,0,0,0,0,0],
+                        backgroundColor: 'rgba(118,163,255,0.2)',
+                        borderColor: '#76a3ff'
+                    }]
+                },
+                options: { responsive: true, animation: { duration: 800 } }
+            });
+        }
     });
+    chartObserver.observe(document.getElementById('radarContainer'));
 
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
@@ -344,8 +405,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const searchInput = document.getElementById('searchInput');
+    const suggestions = document.getElementById('searchSuggestions');
+    const allItems = [...styles, ...methods];
     searchInput.addEventListener('input', e => {
         const term = e.target.value.toLowerCase();
+        suggestions.innerHTML = '';
+        if (term) {
+            allItems.filter(i => i.name.toLowerCase().includes(term)).slice(0,3).forEach(match => {
+                const li = document.createElement('li');
+                li.textContent = match.name;
+                li.addEventListener('click', () => {
+                    document.getElementById(match.name.replace(/\W/g,''))?.scrollIntoView({behavior:'smooth'});
+                    searchInput.value = match.name;
+                    suggestions.innerHTML = '';
+                });
+                suggestions.appendChild(li);
+            });
+        }
         document.querySelectorAll('.card').forEach(c => {
             const text = c.querySelector('h3').textContent.toLowerCase() + ' ' + c.querySelector('p').textContent.toLowerCase();
             c.style.display = text.includes(term) ? '' : 'none';
@@ -368,4 +444,13 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
         });
     });
+
+    const bottomNav = document.getElementById('bottomNav');
+    bottomNav.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', e => {
+            e.preventDefault();
+            document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});
+        });
+    });
+    document.getElementById('helpButton').addEventListener('click', () => alert('How can we assist you today?'));
 });
