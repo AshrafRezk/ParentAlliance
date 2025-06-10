@@ -4,13 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parent Ally</title>
+    <meta name="description" content="Empowering parents with wisdom, love, and science.">
+    <meta property="og:title" content="Parent Ally">
+    <meta property="og:description" content="Empowering parents with wisdom, love, and science.">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
 </head>
 <body>
-    <header>
+    <nav class="navbar">
+        <input type="checkbox" id="navToggle" class="nav-toggle" />
+        <label for="navToggle" class="hamburger">&#9776;</label>
+        <img src="logo.svg" alt="Parent Ally Logo" class="logo">
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#methods">Parenting Methods</a></li>
+            <li><a href="#resources">Videos &amp; Books</a></li>
+            <li><a href="#ask">Ask a Question</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <input type="text" id="globalSearch" class="search" placeholder="What are you struggling with?">
+        <button id="darkToggle" class="dark-toggle">Dark Mode</button>
+    </nav>
+    <header class="hero">
         <h1>Parent Ally</h1>
-        <p>Guiding your parenting journey with best practices</p>
+        <p class="tagline">Guiding your parenting journey with best practices</p>
     </header>
+    <div id="radarPanel" class="radar-panel">
+        <canvas id="traitChart"></canvas>
+    </div>
     <main>
         <section id="styles">
             <h2>Parenting Styles</h2>
@@ -26,20 +56,96 @@
                 <!-- Cards for methods will be inserted here -->
             </div>
         </section>
+        <section id="comparison">
+            <h2>Method Comparison</h2>
+            <table class="comparison">
+                <thead>
+                    <tr><th>Method</th><th>Pros</th><th>Cons</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Montessori</td><td>Independence</td><td>Less group work</td></tr>
+                    <tr><td>Waldorf</td><td>Creativity</td><td>Delayed academics</td></tr>
+                    <tr><td>Classical</td><td>Logical thinking</td><td>Less flexibility</td></tr>
+                </tbody>
+            </table>
+        </section>
         <section id="journeys">
             <h2>Guided Journeys</h2>
-            <p>Core ideas distilled from respected sources to cultivate confident, compassionate leaders.</p>
-            <ul>
-                <li>Encourage independence and responsibility daily.</li>
-                <li>Model empathy and patience through every interaction.</li>
-                <li>Create rhythm and structure to nurture security.</li>
-                <li>Invite curiosity with nature walks, hands-on projects, and storytelling.</li>
-                <li>Share purposeful habits rooted in kindness and resilience.</li>
-            </ul>
+            <details open>
+                <summary>Core ideas distilled from respected sources</summary>
+                <ul>
+                    <li>Encourage independence and responsibility daily.</li>
+                    <li>Model empathy and patience through every interaction.</li>
+                    <li>Create rhythm and structure to nurture security.</li>
+                    <li>Invite curiosity with nature walks, hands-on projects, and storytelling.</li>
+                    <li>Share purposeful habits rooted in kindness and resilience.</li>
+                </ul>
+            </details>
+        </section>
+        <section id="resources">
+            <h2>Videos &amp; Books</h2>
+            <p>Curated resources to dive deeper.</p>
+            <div class="video-embed">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLUl4u3cNGP63rpi7Ikog6KjcNMH3w_cE5" title="Parenting Playlist" allowfullscreen></iframe>
+            </div>
+            <audio controls>
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </section>
+        <section id="quiz">
+            <h2>Parenting Journey Quiz</h2>
+            <form id="quizForm">
+                <label>Child prefers:</label>
+                <select name="style">
+                    <option value="Montessori">Hands-on exploration</option>
+                    <option value="Classical Education">Structured academics</option>
+                    <option value="Forest School">Outdoor time</option>
+                </select>
+                <button type="submit">Get Recommendation</button>
+            </form>
+            <p id="quizResult"></p>
+        </section>
+        <section id="ask">
+            <h2>Ask a Question</h2>
+            <input type="text" id="questionSearch" placeholder="What should I do if my toddler bites?" list="suggestions">
+            <datalist id="suggestions"></datalist>
+        </section>
+        <section id="about">
+            <h2>About</h2>
+            <p>Parent Ally is a community-driven resource to empower parents worldwide.</p>
+        </section>
+        <section id="contact">
+            <h2>Contact</h2>
+            <p>Email: contact@example.com</p>
         </section>
     </main>
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span id="modalClose" class="modal-close">&times;</span>
+            <h3 id="modalTitle"></h3>
+            <p id="modalSummary"></p>
+            <div id="modalTraits"></div>
+            <div class="resource-links">
+                <h4>Explore More</h4>
+                <ul id="modalVideos"></ul>
+                <ul id="modalBooks"></ul>
+            </div>
+        </div>
+    </div>
     <footer>
-        <p>&copy; 2023 Parent Ally</p>
+        <div class="footer-links">
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms</a>
+        </div>
+        <form class="newsletter">
+            <label for="newsletterEmail">Join our newsletter:</label>
+            <input type="email" id="newsletterEmail" placeholder="you@example.com">
+            <button type="submit">Subscribe</button>
+        </form>
+        <p class="copyright">&copy; 2023 Parent Ally</p>
     </footer>
     <script src="scripts.js"></script>
 </body>
