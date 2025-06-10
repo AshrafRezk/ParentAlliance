@@ -166,6 +166,49 @@ const methods = [
     }
 ];
 
+const methodResources = {
+    'Reggio Emilia': {
+        forum: 'https://www.reddit.com/r/ReggioEmilia/',
+        book: 'https://www.goodreads.com/book/show/375297.The_Hundred_Languages_of_Children',
+        video: 'https://www.youtube.com/watch?v=Jk1hJxr0f0g'
+    },
+    'Charlotte Mason': {
+        forum: 'https://www.reddit.com/r/CharlotteMason/',
+        book: 'https://www.goodreads.com/book/show/726640.Home_Education',
+        video: 'https://www.youtube.com/watch?v=Uu4AOZzmyMk'
+    },
+    'Unschooling': {
+        forum: 'https://www.reddit.com/r/unschooling/',
+        book: 'https://www.goodreads.com/book/show/13513052-free-to-learn',
+        video: 'https://www.youtube.com/watch?v=azEY3nz4j9g'
+    },
+    'Forest School': {
+        forum: 'https://www.reddit.com/r/ForestSchool/',
+        book: 'https://www.goodreads.com/book/show/16104656-learning-with-nature',
+        video: 'https://www.youtube.com/watch?v=TZrj5JYFQ4o'
+    },
+    'Classical Education': {
+        forum: 'https://www.reddit.com/r/ClassicEducation/',
+        book: 'https://www.goodreads.com/book/show/507725.The_Well_Trained_Mind',
+        video: 'https://www.youtube.com/watch?v=-sLFzReTp24'
+    },
+    'RIE': {
+        forum: 'https://www.reddit.com/r/RIEParenting/',
+        book: 'https://www.goodreads.com/book/show/96037.Your_Self_Confident_Baby',
+        video: 'https://www.youtube.com/watch?v=_Z3P0s8COEE'
+    },
+    'Pikler': {
+        forum: 'https://pikler.org/en/',
+        book: 'https://www.goodreads.com/book/show/18824933-the-pikler-collection',
+        video: 'https://www.youtube.com/watch?v=rqQkL2VLRrQ'
+    },
+    'Faith-Based': {
+        forum: 'https://www.reddit.com/r/ChristianParenting/',
+        book: 'https://www.goodreads.com/book/show/83669.Shepherding_a_Child_s_Heart',
+        video: 'https://www.youtube.com/watch?v=O6oC7YX9au0'
+    }
+};
+
 const icons = {
     'Authoritative': '🎯',
     'Authoritarian': '🛡️',
@@ -200,13 +243,21 @@ function renderMarkdown(text) {
 }
 
 function getResources(name) {
+    if (methodResources[name]) {
+        return {
+            videos: [methodResources[name].video],
+            books: [methodResources[name].book],
+            forums: [methodResources[name].forum]
+        };
+    }
     return {
         videos: [
             `https://www.youtube.com/results?search_query=${encodeURIComponent(name + ' parenting method')}`
         ],
         books: [
             `https://www.goodreads.com/search?q=${encodeURIComponent(name + ' parenting')}`
-        ]
+        ],
+        forums: []
     };
 }
 
@@ -234,6 +285,7 @@ function showModal(item) {
     const modalTraits = document.getElementById('modalTraits');
     const modalVideos = document.getElementById('modalVideos');
     const modalBooks = document.getElementById('modalBooks');
+    const modalForums = document.getElementById('modalForums');
 
     modalTitle.textContent = item.name;
     modalSummary.textContent = item.summary;
@@ -261,6 +313,16 @@ function showModal(item) {
     modalTraits.appendChild(neglectList);
 
     const resources = getResources(item.name);
+    modalForums.innerHTML = '';
+    resources.forums.forEach(url => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.textContent = `Forum for ${item.name}`;
+        li.appendChild(a);
+        modalForums.appendChild(li);
+    });
     modalVideos.innerHTML = '';
     resources.videos.forEach(url => {
         const li = document.createElement('li');
@@ -296,7 +358,7 @@ document.getElementById('infoModal').addEventListener('click', e => {
 });
 
 
-function createCard(item) {
+function createCard(item, showModalOnClick = false) {
     const card = document.createElement('div');
     card.className = 'card';
     card.id = item.name.replace(/\W/g,'');
@@ -387,6 +449,7 @@ function createCard(item) {
         card.classList.add('active');
         updateChart(item);
         updateTimeline(item.name);
+        if (showModalOnClick) showModal(item);
     });
 
     return card;
@@ -396,7 +459,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const styleContainer = document.querySelector('#styles .cards');
     const methodContainer = document.querySelector('#methods .cards');
     styles.forEach(item => styleContainer.appendChild(createCard(item)));
-    methods.forEach(item => methodContainer.appendChild(createCard(item)));
+    methods.forEach(item => methodContainer.appendChild(createCard(item, true)));
 
     fetch('journeys.json').then(r=>r.json()).then(d=>{journeyData=d;});
 
