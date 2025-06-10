@@ -390,7 +390,22 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
-    chartObserver.observe(document.getElementById('radarContainer'));
+    const radarContainer = document.getElementById('radarContainer');
+    chartObserver.observe(radarContainer);
+
+    const chartToggle = document.getElementById('chartToggle');
+    chartToggle.addEventListener('click', () => {
+        radarContainer.classList.toggle('hidden');
+        chartToggle.textContent = radarContainer.classList.contains('hidden') ? 'Show Chart' : 'Hide Chart';
+    });
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 150) {
+            radarContainer.classList.add('faded');
+        } else {
+            radarContainer.classList.remove('faded');
+        }
+    });
 
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
