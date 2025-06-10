@@ -159,6 +159,13 @@ function getResources(name) {
     };
 }
 
+function updateChart(item) {
+    const chartContainer = document.getElementById('statsChart');
+    if (!chartContainer) return;
+    console.log('Updating chart for', item.name);
+    // Implementation would update chart elements based on item data
+}
+
 function showModal(item) {
     const modal = document.getElementById('infoModal');
     const modalTitle = document.getElementById('modalTitle');
@@ -292,7 +299,13 @@ function createCard(item) {
     card.appendChild(details);
 
     card.addEventListener('click', () => {
-        showModal(item);
+        if (typeof updateChart === 'function') {
+            updateChart(item);
+        }
+        details.classList.toggle('show');
+        if (document.getElementById('infoModal')) {
+            showModal(item);
+        }
     });
 
     return card;
