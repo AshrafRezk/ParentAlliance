@@ -588,6 +588,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    document.addEventListener('click', e => {
+        if (!searchInput.contains(e.target) && !suggestions.contains(e.target)) {
+            suggestions.innerHTML = '';
+        }
+    });
+    searchInput.addEventListener('keydown', e => {
+        if (e.key === 'Escape') suggestions.innerHTML = '';
+    });
+
     const themeToggle = document.getElementById('themeToggle');
     if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
     themeToggle.addEventListener('click', () => {
