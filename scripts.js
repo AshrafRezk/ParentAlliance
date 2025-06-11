@@ -540,4 +540,54 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     document.getElementById('helpButton').addEventListener('click', () => alert('How can we assist you today?'));
+
+    const form = document.getElementById('childForm');
+    const addBtn = document.getElementById('addChild');
+    const output = document.getElementById('aiResponse');
+    const endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+
+    function buildPrompt(children){
+        let text = 'Provide parenting recommendations tailored to the following children.\n';
+        children.forEach(c => {
+            text += `Child: ${c.name}, Age: ${c.age}, Gender: ${c.gender}, Challenges: ${c.challenge}\n`;
+        });
+        text += 'Suggest compatible parenting styles, education methods, milestones, and approaches to address the challenges.';
+        return text;
+    }
+
+    addBtn?.addEventListener('click', e => {
+        e.preventDefault();
+        const div = document.createElement('div');
+        div.className = 'child-input';
+        div.innerHTML = `<input type="text" name="name" placeholder="Child Name">\n<input type="number" name="age" placeholder="Age" min="0">\n<select name="gender"><option value="" selected>Gender</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select>\n<input type="text" name="challenge" placeholder="Current Challenge">`;
+        addBtn.before(div);
+    });
+
+    form?.addEventListener('submit', async e => {
+        e.preventDefault();
+        const children = [];
+        form.querySelectorAll('.child-input').forEach(div => {
+            children.push({
+                name: div.querySelector('input[name="name"]').value,
+                age: div.querySelector('input[name="age"]').value,
+                gender: div.querySelector('select[name="gender"]').value,
+                challenge: div.querySelector('input[name="challenge"]').value
+            });
+        });
+        output.textContent = 'Loading...';
+        try {
+            const res = await fetch(endpoint + '?key=' + (window.GEMINI_API_KEY || ''), {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({
+                    contents: [{parts:[{text: buildPrompt(children)}]}]
+                })
+            });
+            const data = await res.json();
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response';
+            output.textContent = text;
+        } catch(err){
+            output.textContent = 'Error: ' + err.message;
+        }
+    });
 });

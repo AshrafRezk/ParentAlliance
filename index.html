@@ -53,6 +53,25 @@
             <p>Core ideas distilled from respected sources to cultivate confident, compassionate leaders.</p>
             <div id="journeyTimeline" class="timeline"></div>
         </section>
+        <section id="guest">
+            <h2>AI-Powered Guidance</h2>
+            <form id="childForm">
+                <div class="child-input">
+                    <input type="text" name="name" placeholder="Child Name">
+                    <input type="number" name="age" placeholder="Age" min="0">
+                    <select name="gender">
+                        <option value="" selected>Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <input type="text" name="challenge" placeholder="Current Challenge">
+                </div>
+                <button id="addChild">Add Another Child</button>
+                <button type="submit">Get Recommendations</button>
+            </form>
+            <pre id="aiResponse"></pre>
+        </section>
     </main>
     <footer>
         <form id="newsletter">
@@ -74,6 +93,9 @@
         <a href="#" id="profileLink">Profile</a>
     </nav>
     <button id="helpButton" class="help-btn">Need Help?</button>
+    <script>
+        window.GEMINI_API_KEY = '';
+    </script>
     <script src="scripts.js"></script>
 </body>
 </html>
