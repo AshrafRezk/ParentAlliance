@@ -314,6 +314,6 @@ header p {animation-delay:0.5s;}
 .milestone::before {content:'';position:absolute;left:-6px;top:0.75rem;width:10px;height:10px;border-radius:50%;background:var(--primary);}
 
 #guest form {display:flex;flex-direction:column;gap:0.5rem;margin-top:1rem;}
-.child-input {display:flex;flex-wrap:wrap;gap:0.5rem;}
-#aiResponse {white-space:pre-wrap;background:var(--surface);padding:1rem;border-radius:8px;box-shadow:0 1px 3px var(--shadow);margin-top:1rem;}
+.child-entry {display:flex;flex-wrap:wrap;gap:0.5rem;}
+#responseBox {white-space:pre-wrap;background:var(--surface);padding:1rem;border-radius:8px;box-shadow:0 1px 3px var(--shadow);margin-top:1rem;}
 

@@ -543,51 +543,74 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const form = document.getElementById('childForm');
     const addBtn = document.getElementById('addChild');
-    const output = document.getElementById('aiResponse');
-    const endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
-
-    function buildPrompt(children){
-        let text = 'Provide parenting recommendations tailored to the following children.\n';
-        children.forEach(c => {
-            text += `Child: ${c.name}, Age: ${c.age}, Gender: ${c.gender}, Challenges: ${c.challenge}\n`;
-        });
-        text += 'Suggest compatible parenting styles, education methods, milestones, and approaches to address the challenges.';
-        return text;
-    }
+    const responseBox = document.getElementById('responseBox');
 
     addBtn?.addEventListener('click', e => {
         e.preventDefault();
         const div = document.createElement('div');
-        div.className = 'child-input';
-        div.innerHTML = `<input type="text" name="name" placeholder="Child Name">\n<input type="number" name="age" placeholder="Age" min="0">\n<select name="gender"><option value="" selected>Gender</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select>\n<input type="text" name="challenge" placeholder="Current Challenge">`;
+        div.className = 'child-entry';
+        div.innerHTML = `<input type="text" class="child-name" placeholder="Child Name">\n<input type="number" class="child-age" placeholder="Age" min="0">\n<select class="child-gender"><option value="" selected>Gender</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select>\n<input type="text" class="child-challenge" placeholder="Current Challenge">`;
         addBtn.before(div);
     });
 
-    form?.addEventListener('submit', async e => {
-        e.preventDefault();
-        const children = [];
-        form.querySelectorAll('.child-input').forEach(div => {
-            children.push({
-                name: div.querySelector('input[name="name"]').value,
-                age: div.querySelector('input[name="age"]').value,
-                gender: div.querySelector('select[name="gender"]').value,
-                challenge: div.querySelector('input[name="challenge"]').value
-            });
-        });
-        output.textContent = 'Loading...';
-        try {
-            const res = await fetch(endpoint + '?key=' + (window.GEMINI_API_KEY || ''), {
-                method: 'POST',
-                headers: {'Content-Type':'application/json'},
-                body: JSON.stringify({
-                    contents: [{parts:[{text: buildPrompt(children)}]}]
-                })
-            });
-            const data = await res.json();
-            const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response';
-            output.textContent = text;
-        } catch(err){
-            output.textContent = 'Error: ' + err.message;
+    async function getAIRecommendations() {
+        const children = Array.from(document.querySelectorAll('.child-entry')).map(entry => ({
+            name: entry.querySelector('.child-name').value,
+            age: entry.querySelector('.child-age').value,
+            gender: entry.querySelector('.child-gender').value,
+            challenge: entry.querySelector('.child-challenge').value
+        }));
+
+        if (children.length === 0 || children.some(c => !c.name || !c.age || !c.gender)) {
+            alert('Please fill out all child fields.');
+            return;
         }
+
+        const prompt = children.map((c, i) => `
+Child ${i + 1}:
+- Name: ${c.name}
+- Age: ${c.age} years
+- Gender: ${c.gender}
+- Challenge: ${c.challenge}
+  `).join('\n');
+
+        const finalPrompt = `You are a parenting coach. Based on the information below, give for each child:
+1. Ideal parenting style
+2. Educational method
+3. Specific advice for their current challenge
+
+${prompt}
+
+Respond clearly for each child.`;
+
+        const apiKey = 'AIzaSyA_j4rVok3GJBr6RzguXLajxyivHR-yRJY';
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+        const requestBody = {
+            contents: [{
+                parts: [{ text: finalPrompt }]
+            }]
+        };
+
+        responseBox.innerText = 'Loading...';
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody)
+            });
+
+            const data = await response.json();
+            const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'No AI response.';
+            responseBox.innerText = text;
+        } catch (err) {
+            console.error('Error:', err);
+            responseBox.innerText = '❌ Error getting AI response.';
+        }
+    }
+
+    form?.addEventListener('submit', e => {
+        e.preventDefault();
+        getAIRecommendations();
     });
 });

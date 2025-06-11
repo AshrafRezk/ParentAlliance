@@ -56,21 +56,21 @@
         <section id="guest">
             <h2>AI-Powered Guidance</h2>
             <form id="childForm">
-                <div class="child-input">
-                    <input type="text" name="name" placeholder="Child Name">
-                    <input type="number" name="age" placeholder="Age" min="0">
-                    <select name="gender">
+                <div class="child-entry">
+                    <input type="text" class="child-name" placeholder="Child Name">
+                    <input type="number" class="child-age" placeholder="Age" min="0">
+                    <select class="child-gender">
                         <option value="" selected>Gender</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>
                     </select>
-                    <input type="text" name="challenge" placeholder="Current Challenge">
+                    <input type="text" class="child-challenge" placeholder="Current Challenge">
                 </div>
                 <button id="addChild">Add Another Child</button>
                 <button type="submit">Get Recommendations</button>
             </form>
-            <pre id="aiResponse"></pre>
+            <pre id="responseBox"></pre>
         </section>
     </main>
     <footer>
