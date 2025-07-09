@@ -9,3 +9,4 @@ The chart now floats on the side of the screen with a toggle to hide or show it.
 It smoothly slides in and out when toggled instead of hiding on scroll.
 Guided journeys now load from an external JSON file and animate as a timeline
 based on the selected method. The radar chart also updates for each approach.
+The interface now uses glassmorphism styling for a modern translucent look.
