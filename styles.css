@@ -2,32 +2,36 @@
 body.dark-mode {
     --primary:#d0bcff;
     --on-primary:#381e72;
-    --surface:#1e1b25;
-    --surface-container:#131218;
+    --surface:rgba(30,30,30,0.6);
+    --surface-container:rgba(30,30,30,0.3);
     --on-surface:#e6e1e5;
     --outline:#938f99;
     --bg:var(--surface-container);
     --text:var(--on-surface);
-    --shadow:rgba(0,0,0,0.4);
+    --shadow:rgba(0,0,0,0.6);
+    --glass-border:rgba(255,255,255,0.2);
+    --bg-gradient:linear-gradient(135deg,#2b2b2b,#1e1e1e);
 }
 
 :root {
     --primary:#6750a4;
     --on-primary:#ffffff;
-    --surface:#ffffff;
-    --surface-container:#f5f5f5;
+    --surface:rgba(255,255,255,0.6);
+    --surface-container:rgba(255,255,255,0.3);
     --on-surface:#1c1b1f;
     --outline:#79747e;
     --bg:var(--surface-container);
     --text:var(--on-surface);
-    --shadow:rgba(0,0,0,0.08);
+    --shadow:rgba(0,0,0,0.1);
+    --glass-border:rgba(255,255,255,0.4);
+    --bg-gradient:linear-gradient(135deg,#e0e7ff,#fff1f2);
 }
 body {
     font-family: 'Roboto', 'Inter', Arial, sans-serif;
     font-size: 16px;
     margin: 0;
     padding: 0;
-    background: var(--bg);
+    background: var(--bg-gradient);
     color: var(--text);
 }
 header {
@@ -35,6 +39,11 @@ header {
     padding: 2rem 1rem;
     background: var(--surface);
     box-shadow: 0 2px 4px var(--shadow);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    margin: 1rem;
 }
 header h1 {
     margin: 0.2rem;
@@ -60,7 +69,7 @@ main {
 }
 .card {
     background: var(--surface);
-    border-radius: 12px;
+    border-radius: 16px;
     box-shadow: 0 1px 3px var(--shadow);
     padding: 1rem;
     width: calc(33% - 1rem);
@@ -74,6 +83,9 @@ main {
     align-items: flex-start;
     position: relative;
     z-index: 1;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
 }
 .card.visible {
     opacity: 1;
@@ -127,6 +139,9 @@ footer {
     padding: 1rem;
     background: var(--surface);
     box-shadow: inset 0 1px 2px var(--shadow);
+    border-top: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 @media (max-width: 600px) {
     .card {
@@ -144,15 +159,19 @@ footer {
 #searchInput {
     padding: 0.5rem 1rem;
     border-radius: 20px;
-    border: none;
+    border: 1px solid var(--glass-border);
     box-shadow: inset 0 1px 2px var(--shadow);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     margin-right: 0.5rem;
 }
 #themeToggle {
     padding: 0.5rem 1rem;
     border-radius: 20px;
-    border: none;
+    border: 1px solid var(--glass-border);
     box-shadow: 0 1px 2px var(--shadow);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 /* Sidebar navigation */
@@ -162,10 +181,12 @@ footer {
     left: 1rem;
     z-index: 1100;
     background: var(--surface);
-    border: none;
+    border: 1px solid var(--glass-border);
     padding: 0.5rem;
-    border-radius: 8px;
+    border-radius: 12px;
     box-shadow: 0 1px 3px var(--shadow);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 #sidebar {
     position: fixed;
@@ -175,6 +196,9 @@ footer {
     height: 100%;
     background: var(--surface);
     box-shadow: 0 2px 4px var(--shadow);
+    border-right: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding-top: 4rem;
     transition: left 0.3s ease;
     z-index: 1050;
@@ -192,8 +216,11 @@ footer {
     width: 300px;
     height: 300px;
     background: var(--surface);
-    border-radius: 12px;
+    border-radius: 16px;
     box-shadow: 0 2px 4px var(--shadow);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
     overflow: hidden;
     z-index: 1000;
     transition: transform 0.3s ease, opacity 0.3s ease;
@@ -212,11 +239,13 @@ footer {
     right: 1rem;
     top: calc(50% + 160px);
     z-index: 1001;
-    border: none;
+    border: 1px solid var(--glass-border);
     padding: 0.4rem 0.8rem;
-    border-radius: 8px;
+    border-radius: 12px;
     background: var(--surface);
     box-shadow: 0 1px 2px var(--shadow);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     cursor: pointer;
     transition: right 0.3s ease;
 }
@@ -272,6 +301,9 @@ footer {
     background: var(--surface);
     padding: 0.5rem 0;
     box-shadow: 0 -2px 8px var(--shadow);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid var(--glass-border);
 }
 #bottomNav a { text-decoration: none; color: inherit; font-size: 0.9rem; }
 
@@ -279,12 +311,14 @@ footer {
     position: fixed;
     bottom: 4rem;
     right: 1rem;
-    border: none;
+    border: 1px solid var(--glass-border);
     padding: 0.6rem 1rem;
     border-radius: 20px;
     box-shadow: 0 1px 2px var(--shadow);
     background: var(--surface);
     cursor: pointer;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .suggestions {
@@ -295,6 +329,9 @@ footer {
     overflow-y: auto;
     background: var(--surface);
     box-shadow: 0 1px 2px var(--shadow);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
 }
 .suggestions li { padding: 0.3rem 0.5rem; cursor: pointer; }
 .suggestions li:hover { background: #ddd; }
@@ -315,5 +352,5 @@ header p {animation-delay:0.5s;}
 
 #guest form {display:flex;flex-direction:column;gap:0.5rem;margin-top:1rem;}
 .child-input {display:flex;flex-wrap:wrap;gap:0.5rem;}
-#aiResponse {white-space:pre-wrap;background:var(--surface);padding:1rem;border-radius:8px;box-shadow:0 1px 3px var(--shadow);margin-top:1rem;}
+#aiResponse {white-space:pre-wrap;background:var(--surface);padding:1rem;border-radius:8px;box-shadow:0 1px 3px var(--shadow);margin-top:1rem;border:1px solid var(--glass-border);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
 
